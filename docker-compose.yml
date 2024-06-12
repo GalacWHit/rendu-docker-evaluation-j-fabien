@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  database:
+    build:
+      context: ./database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: docker_doc
+      MYSQL_USER: db_client
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/mysql
+
+  client:
+    build:
+      context: ./client
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    environment:
+      ENV: dev
